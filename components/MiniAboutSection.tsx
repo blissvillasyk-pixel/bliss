@@ -31,12 +31,14 @@ export function MiniAboutSection() {
 
               {/* Stats */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
-                {(data?.about?.aboutData || [
-                  { id: "p1", value: "20+", label: "Villa Tersedia" },
-                  { id: "p2", value: "4.9★", label: "Rating Tamu" },
-                  { id: "p3", value: "1000+", label: "Tamu Puas" },
-                  { id: "p4", value: "24/7", label: "Layanan" },
-                ]).map((stat: any) => (
+                {(
+                  data?.about?.aboutData || [
+                    { id: "p1", value: "20+", label: "Villa Tersedia" },
+                    { id: "p2", value: "4.9★", label: "Rating Tamu" },
+                    { id: "p3", value: "1000+", label: "Tamu Puas" },
+                    { id: "p4", value: "24/7", label: "Layanan" },
+                  ]
+                ).map((stat) => (
                   <div key={stat.id} className="text-center">
                     <div className="text-2xl lg:text-3xl font-bold text-primary-600">
                       {stat.value}

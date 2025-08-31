@@ -1,7 +1,7 @@
 import ProductDetailsClient from "./client";
 
 interface Params {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 const ProductDetailsPage = async ({ params }: Params) => {
   const { id } = await params;

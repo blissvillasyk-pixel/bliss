@@ -9,7 +9,6 @@ import {
   Image as ImageIcon,
   FileIcon,
   FileBoxIcon,
-  Loader2,
   FileUpIcon,
   ImageUpIcon,
 } from "lucide-react";

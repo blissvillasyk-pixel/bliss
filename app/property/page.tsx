@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AnimatedSection } from "@/components/ui/animated-section";
-import { Search, Filter } from "lucide-react";
+import { Search } from "lucide-react";
 import { useData } from "@/service/data";
 import { PropertyType } from "@prisma/client";
 import { convertToTitleCase } from "@/helper/formatter";

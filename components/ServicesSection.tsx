@@ -26,12 +26,34 @@ export function ServicesSection() {
         </AnimatedSection>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(data?.service?.serviceData || [
-            { id: "s1", icon: "🏠", title: "Penginapan Nyaman", description: "Villa bersih, privat, dan lokasi strategis." },
-            { id: "s2", icon: "🧹", title: "Housekeeping", description: "Layanan kebersihan profesional." },
-            { id: "s3", icon: "🛎️", title: "Concierge", description: "Bantuan pemesanan dan kebutuhan tamu." },
-            { id: "s4", icon: "🔐", title: "Keamanan", description: "Keamanan dan privasi terjamin." },
-          ]).map((service: any, index: number) => (
+          {(
+            data?.service?.serviceData || [
+              {
+                id: "s1",
+                icon: "🏠",
+                title: "Penginapan Nyaman",
+                description: "Villa bersih, privat, dan lokasi strategis.",
+              },
+              {
+                id: "s2",
+                icon: "🧹",
+                title: "Housekeeping",
+                description: "Layanan kebersihan profesional.",
+              },
+              {
+                id: "s3",
+                icon: "🛎️",
+                title: "Concierge",
+                description: "Bantuan pemesanan dan kebutuhan tamu.",
+              },
+              {
+                id: "s4",
+                icon: "🔐",
+                title: "Keamanan",
+                description: "Keamanan dan privasi terjamin.",
+              },
+            ]
+          ).map((service, index: number) => (
             <AnimatedSection key={service.id} delay={index * 0.1}>
               <Card className="text-center p-6 lg:p-8 rounded-2xl shadow-lg border-0 bg-white hover:shadow-xl hover:scale-105 transition-all duration-300 group">
                 <CardHeader>
