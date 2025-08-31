@@ -1,0 +1,277 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Root {
+  id              String                    @id @default(uuid())
+  hero            HeroSection?
+  about           AboutSection?
+  property        PropertySection?
+  why             WhySection?
+  cta             CtaSection?
+  service         ServicesSection?
+  testimonial     TestimonialSection?
+  relatedProperty RelatedPropertiesSection?
+  finalCtaSection FinalCtaSection?
+
+  propertyPage PropertyPageSection?
+
+  logo        LogoInformation?
+  contact     ContactInformation?
+  copyright   CopyrightInformation?
+  socialMedia SocialMediaInformation[]
+
+  properties Property[]
+}
+
+model LogoInformation {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  name String
+  logo String @db.Text()
+  alt  String
+}
+
+model ContactInformation {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  address String
+  phone   String
+  email   String
+}
+
+model CopyrightInformation {
+  id     String @id @default(uuid())
+  text   String
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+}
+
+model SocialMediaInformation {
+  id     String @id @default(uuid())
+  rootId String
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  icon  SocialMediaIcon
+  label String
+  href  String
+}
+
+enum SocialMediaIcon {
+  FACEBOOK
+  TWITTER
+  INSTAGRAM
+  LINKEDIN
+  YOUTUBE
+  TIKTOK
+  PINTEREST
+  WEBSITE
+  WHATSAPP
+  TELEGRAM
+  LINE
+  KAKAO
+  WECHAT
+  WEIBO
+  X
+}
+
+model HeroSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title      String
+  subtitle   String  @db.Text()
+  buttonText String
+  image      String? @db.Text()
+}
+
+model AboutSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title       String
+  subtitle    String      @db.Text()
+  description String      @db.Text()
+  image       String?     @db.Text()
+  aboutData   AboutData[]
+}
+
+model AboutData {
+  id      String       @id @default(uuid())
+  label   String
+  value   String
+  aboutId String
+  about   AboutSection @relation(fields: [aboutId], references: [id], onDelete: Cascade)
+}
+
+model PropertySection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title      String
+  subtitle   String @db.Text()
+  buttonText String
+}
+
+model WhySection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title    String
+  subtitle String    @db.Text()
+  image    String?   @db.Text()
+  whyData  WhyData[]
+}
+
+model WhyData {
+  id          String     @id @default(uuid())
+  icon        String
+  title       String
+  description String     @db.Text()
+  whyId       String
+  why         WhySection @relation(fields: [whyId], references: [id], onDelete: Cascade)
+}
+
+model CtaSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title      String
+  subtitle   String @db.Text()
+  buttonText String
+}
+
+model ServicesSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title       String
+  subtitle    String        @db.Text()
+  serviceData ServiceData[]
+}
+
+model ServiceData {
+  id                String          @id @default(uuid())
+  title             String
+  description       String          @db.Text()
+  icon              String
+  servicesSectionId String
+  servicesSection   ServicesSection @relation(fields: [servicesSectionId], references: [id], onDelete: Cascade)
+}
+
+model TestimonialSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title           String
+  subtitle        String            @db.Text()
+  testimonialData TestimonialData[]
+}
+
+model TestimonialData {
+  id                   String             @id @default(uuid())
+  name                 String
+  role                 String
+  image                String?            @db.Text()
+  rating               Float
+  content              String             @db.Text()
+  urlVideo             String?            @db.Text()
+  testimonialSectionId String
+  testimonialSection   TestimonialSection @relation(fields: [testimonialSectionId], references: [id], onDelete: Cascade)
+}
+
+model RelatedPropertiesSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title      String
+  subtitle   String @db.Text()
+  buttonText String
+}
+
+model FinalCtaSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title               String
+  subtitle            String @db.Text()
+  primaryButtonText   String
+  secondaryButtonText String
+}
+
+model PropertyPageSection {
+  id     String @id @default(uuid())
+  rootId String @unique
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  title    String
+  subtitle String @db.Text()
+
+  ctaTitle      String
+  ctaSubtitle   String @db.Text()
+  ctaButtonText String
+}
+
+model Property {
+  id String @id @default(uuid())
+
+  name    String
+  images  String[]
+  address String
+  type    PropertyType
+
+  pdf String @db.Text()
+
+  room   Int
+  bath   Int
+  sqft   Int
+  price  Int
+  rating Float
+
+  description String   @db.Text()
+  features    String[]
+
+  isAvailable Boolean
+
+  rootId String
+  root   Root   @relation(fields: [rootId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum PropertyType {
+  VILLA
+  APARTEMEN
+  RUMAH
+  RITEL
+  PROPERTI_MEWAH
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
