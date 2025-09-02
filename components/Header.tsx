@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogIn } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useData } from "@/service/data";
@@ -130,17 +130,6 @@ export function Header() {
 
           {/* CTA Button & Mobile Menu */}
           <div className="flex items-center space-x-4">
-            <Link href="/admin">
-              <Button
-                variant="outline"
-                className="border-primary-600 text-primary-600 hover:bg-primary-50 hover:border-primary-700 hover:text-primary-700 font-medium px-4 lg:px-6 focus-visible:focus"
-                size="sm"
-              >
-                <LogIn className="h-4 w-4 mr-2" />
-                Login
-              </Button>
-            </Link>
-
             <Link
               href={`https://wa.me/${data?.contact?.phone.replace(/-/g, "")}`}
               target="_blank"
@@ -216,21 +205,6 @@ export function Header() {
                   </motion.div>
                 );
               })}
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: NAV_ITEMS.length * 0.1 }}
-              >
-                <Link
-                  href="/admin"
-                  className="block py-2 text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <LogIn className="h-4 w-4 inline mr-2" />
-                  Login
-                </Link>
-              </motion.div>
             </nav>
           </motion.div>
         )}
