@@ -13,20 +13,6 @@ export function Hero() {
 
   if (isLoading && !data) return null;
 
-  const stats = [
-  {
-    label:"Jumlah Properti",
-    value: `${data?.properties?.length} +`
-  },
-  {
-    label: "Terjual",
-    value: `${data?.properties?.filter((property) => !property.isAvailable).length} +`
-  },
-  {
-    label: "Tersedia",
-    value: `${data?.properties?.filter((property) => property.isAvailable).length} +`
-  }
-  ]
 
   return (
     <section className="pt-24 lg:pt-32 pb-12 lg:pb-20 bg-gray-50" id="hero">
@@ -68,24 +54,7 @@ export function Hero() {
               </Link>
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              className="flex space-x-8 pt-4"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              {stats.map((stat, index: number) => (
-                <div key={index} className="text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-gray-900">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-gray-600 font-medium">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </motion.div>
+            {/* Stats removed as requested */}
           </AnimatedSection>
 
           {/* Right Column - Image */}

@@ -881,47 +881,6 @@ const AdminPage = () => {
                               <span className={`hidden sm:inline px-2 py-0.5 rounded text-xs ${p.isAvailable ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                                 {p.isAvailable ? "Tersedia" : "Tidak Tersedia"}
                               </span>
-                              <div className="flex items-center gap-1">
-                                <span className="text-xs text-gray-600">Tersedia</span>
-                                <Switch
-                                  checked={!!p.isAvailable}
-                                  onCheckedChange={(checked) => {
-                                    // Cek kelengkapan data yang diwajibkan oleh API upsert
-                                    const hasRequiredStrings =
-                                      !!p.name && !!p.address && !!p.description && !!p.pdf;
-                                    const hasImages = Array.isArray(p.images) && p.images.length > 0;
-                                    const hasNumbers =
-                                      typeof p.room === "number" &&
-                                      typeof p.bath === "number" &&
-                                      typeof p.sqft === "number" &&
-                                      typeof p.price === "number" &&
-                                      typeof p.rating === "number";
-
-                                    if (!hasRequiredStrings || !hasImages || !hasNumbers || !p.type) {
-                                      alert("Lengkapi data properti (nama, pdf, gambar, alamat, deskripsi, angka, tipe) sebelum mengubah status.");
-                                      return;
-                                    }
-
-                                    mPropertyItem.mutate({
-                                      id: p.id,
-                                      name: p.name,
-                                      images: p.images,
-                                      address: p.address,
-                                      type: p.type,
-                                      room: p.room,
-                                      bath: p.bath,
-                                      sqft: p.sqft,
-                                      price: p.price,
-                                      rating: p.rating,
-                                      description: p.description,
-                                      features: p.features || [],
-                                      isAvailable: checked,
-                                      pdf: p.pdf,
-                                    });
-                                  }}
-                                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300"
-                                />
-                              </div>
                             </div>
                           </div>
                           <p className="text-xs text-gray-500 truncate">{p.address}</p>

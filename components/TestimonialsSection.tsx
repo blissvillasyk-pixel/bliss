@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Quote, ChevronLeft, ChevronRight, Star, Pause, Play } from "lucide-react";
+import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { AnimatedSection } from "@/components/ui/animated-section";
 import { useData } from "@/service/data";
 import { convertToEmbedUrl } from "@/helper/youtube";
@@ -23,11 +23,8 @@ export function TestimonialsSection() {
   // YouTube player hook
   const {
     isPlaying: isVideoPlaying,
-    isVideoLoaded,
     iframeRef,
     handleIframeLoad,
-    playVideo,
-    pauseVideo
   } = useYouTubePlayer({
     videoUrl: currentTestimonial?.urlVideo,
     onPlay: () => {
@@ -99,14 +96,7 @@ export function TestimonialsSection() {
     }
   };
 
-  // Handle video interaction
-  const handleVideoInteraction = () => {
-    if (!isVideoPlaying) {
-      playVideo();
-    } else {
-      pauseVideo();
-    }
-  };
+  // Removed custom video overlay controls to allow native YouTube controls
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -219,28 +209,7 @@ export function TestimonialsSection() {
                         onLoad={handleIframeLoad}
                       />
                       
-                      {/* Video control overlay */}
-                      {isVideoLoaded && (
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 bg-black/20">
-                          <Button
-                            onClick={handleVideoInteraction}
-                            className="bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-lg shadow-lg"
-                            size="sm"
-                          >
-                            {isVideoPlaying ? (
-                              <>
-                                <Pause className="h-4 w-4 mr-2" />
-                                Pause
-                              </>
-                            ) : (
-                              <>
-                                <Play className="h-4 w-4 mr-2" />
-                                Play
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      )}
+                      {/* Removed custom play/pause overlay */}
                     </>
                   ) : (
                     <div className="w-full h-full grid place-items-center text-gray-500 text-sm">

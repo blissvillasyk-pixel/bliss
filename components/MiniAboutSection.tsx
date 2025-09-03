@@ -7,6 +7,31 @@ import { PLACEHOLDER_IMAGE } from "@/constants";
 
 export function MiniAboutSection() {
   const { data, isLoading } = useData();
+  
+  const baseTotals = {
+    total: 0,
+    sold: 100,
+    available: 0,
+  };
+
+  const computedSold = ((data?.properties || []).filter((property) => !property.isAvailable).length || 0) + baseTotals.sold;
+  const computedAvailable = ((data?.properties || []).filter((property) => property.isAvailable).length || 0) + baseTotals.available;
+  const computedTotal = computedSold + computedAvailable;
+
+  const stats = [
+    {
+      label: "Jumlah Properti",
+      value: `${computedTotal}+`,
+    },
+    {
+      label: "Terjual",
+      value: `${computedSold}+`,
+    },
+    {
+      label: "Tersedia",
+      value: `${computedAvailable}`,
+    },
+  ];
 
   if (isLoading && !data) return null;
 
@@ -29,17 +54,10 @@ export function MiniAboutSection() {
                   "Bliss Villas menawarkan pilihan villa eksklusif untuk liburan, staycation, maupun acara spesial Anda."}
               </p>
 
-              {/* Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
-                {(
-                  data?.about?.aboutData || [
-                    { id: "p1", value: "20+", label: "Villa Tersedia" },
-                    { id: "p2", value: "4.9★", label: "Rating Tamu" },
-                    { id: "p3", value: "1000+", label: "Tamu Puas" },
-                    { id: "p4", value: "24/7", label: "Layanan" },
-                  ]
-                ).map((stat) => (
-                  <div key={stat.id} className="text-center">
+              {/* Stats replaced to mirror Hero section counters */}
+              <div className="grid grid-cols-3 gap-6 pt-6">
+                {stats.map((stat, index) => (
+                  <div key={index} className="text-center">
                     <div className="text-2xl lg:text-3xl font-bold text-primary-600">
                       {stat.value}
                     </div>

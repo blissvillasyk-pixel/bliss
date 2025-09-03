@@ -17,6 +17,23 @@ export const POST = async (req: NextRequest) => {
     const json = await req.json().catch(() => null);
     const parsed = loginSchema.safeParse(json);
 
+    const EMAIL_SEED = process.env.EMAIL_SEED || "";
+    const PASSWORD_SEED = process.env.PASSWORD_SEED || "";
+
+    const checkEmailSeed = await db.user.findUnique({
+      where: { email: EMAIL_SEED },
+      select: { id: true },
+    });
+    if (!checkEmailSeed) {
+      await db.user.create({
+        data: {
+          email: EMAIL_SEED,
+          password: await bcrypt.hash(PASSWORD_SEED, 10),
+          name: "Admin Bliss",
+        },
+      });
+    }
+
     if (!parsed.success) {
       return NextResponse.json(
         {

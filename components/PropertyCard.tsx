@@ -69,7 +69,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
                 {convertToIDR(property.price)}
               </div>
 
-              <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <div className="flex items-center justify-center space-x-4 text-sm text-gray-600 text-center w-full">
                 <div className="flex items-center space-x-1">
                   <Square className="h-4 w-4" />
                   <span className="line-clamp-1">{property.sqft} m²</span>

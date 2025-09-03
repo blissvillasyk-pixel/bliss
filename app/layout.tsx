@@ -5,6 +5,8 @@ import { TanstackProvider } from "@/provider/tanstack-provider";
 import { db } from "@/lib/db";
 import { Toaster } from "@/components/ui/toaster";
 
+export const revalidate = 300; // cache layout and metadata for 5 minutes
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

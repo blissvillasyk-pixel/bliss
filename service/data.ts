@@ -5,7 +5,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 const getData = async () => {
-  const response = await api.get<RootData>("/data");
+  // Append a cache-busting param to avoid browser/proxy caching on admin
+  const response = await api.get<RootData>("/data", { params: { t: Date.now() } });
   return response.data;
 };
 
