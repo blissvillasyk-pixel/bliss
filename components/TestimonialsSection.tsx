@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -49,33 +49,12 @@ export function TestimonialsSection() {
     );
   };
 
-  // Cleanup interval on unmount
-  useEffect(() => {
-    return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    };
-  }, []);
-
   // Reset auto-play when testimonial changes manually
   const handleManualNavigation = (direction: "prev" | "next") => {
     if (direction === "prev") {
       prevTestimonial();
     } else {
       nextTestimonial();
-    }
-
-    // Reset auto-play timer
-    if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current);
-    }
-
-    // Restart auto-play after manual navigation
-    if (isAutoPlay && !isVideoPlaying) {
-      autoPlayRef.current = setInterval(() => {
-        nextTestimonial();
-      }, 5000);
     }
   };
 
