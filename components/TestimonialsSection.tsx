@@ -15,7 +15,7 @@ export function TestimonialsSection() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  
+
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentTestimonial = data?.testimonial?.testimonialData[currentIndex];
@@ -32,7 +32,7 @@ export function TestimonialsSection() {
     },
     onPause: () => {
       setIsAutoPlay(true);
-    }
+    },
   });
 
   const nextTestimonial = () => {
@@ -49,23 +49,6 @@ export function TestimonialsSection() {
     );
   };
 
-  // Auto-play carousel
-  useEffect(() => {
-    if (!isAutoPlay || isVideoPlaying || !data?.testimonial?.testimonialData?.length) {
-      return;
-    }
-
-    autoPlayRef.current = setInterval(() => {
-      nextTestimonial();
-    }, 5000);
-
-    return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    };
-  }, [isAutoPlay, isVideoPlaying, data?.testimonial?.testimonialData?.length]);
-
   // Cleanup interval on unmount
   useEffect(() => {
     return () => {
@@ -76,18 +59,18 @@ export function TestimonialsSection() {
   }, []);
 
   // Reset auto-play when testimonial changes manually
-  const handleManualNavigation = (direction: 'prev' | 'next') => {
-    if (direction === 'prev') {
+  const handleManualNavigation = (direction: "prev" | "next") => {
+    if (direction === "prev") {
       prevTestimonial();
     } else {
       nextTestimonial();
     }
-    
+
     // Reset auto-play timer
     if (autoPlayRef.current) {
       clearInterval(autoPlayRef.current);
     }
-    
+
     // Restart auto-play after manual navigation
     if (isAutoPlay && !isVideoPlaying) {
       autoPlayRef.current = setInterval(() => {
@@ -121,7 +104,8 @@ export function TestimonialsSection() {
               {data?.testimonial?.title || "Apa Kata Mereka"}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {data?.testimonial?.subtitle || "Testimoni tamu yang menikmati pengalaman menginap di Bliss Villas."}
+              {data?.testimonial?.subtitle ||
+                "Testimoni tamu yang menikmati pengalaman menginap di Bliss Villas."}
             </p>
           </div>
         </AnimatedSection>
@@ -140,20 +124,33 @@ export function TestimonialsSection() {
                 </div>
 
                 <blockquote className="text-lg lg:text-xl text-gray-900 leading-relaxed font-medium">
-                  &ldquo;{currentTestimonial?.content || "Pengalaman menginap yang menyenangkan! Villa bersih, nyaman, dan pelayanan ramah."}&rdquo;
+                  &ldquo;
+                  {currentTestimonial?.content ||
+                    "Pengalaman menginap yang menyenangkan! Villa bersih, nyaman, dan pelayanan ramah."}
+                  &rdquo;
                 </blockquote>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <Avatar className="w-12 h-12">
-                      <AvatarImage src={currentTestimonial?.image || ""} alt={currentTestimonial?.name || "Tamu"} />
+                      <AvatarImage
+                        src={currentTestimonial?.image || ""}
+                        alt={currentTestimonial?.name || "Tamu"}
+                      />
                       <AvatarFallback className="bg-primary-100 text-primary-600 font-semibold">
-                        {(currentTestimonial?.name || "Tamu").split(" ").map((n) => n[0]).join("")}
+                        {(currentTestimonial?.name || "Tamu")
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <div className="font-bold text-gray-900">{currentTestimonial?.name || "Tamu Bliss Villas"}</div>
-                      <div className="text-sm text-gray-600">{currentTestimonial?.role || "Tamu"}</div>
+                      <div className="font-bold text-gray-900">
+                        {currentTestimonial?.name || "Tamu Bliss Villas"}
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {currentTestimonial?.role || "Tamu"}
+                      </div>
                     </div>
                   </div>
 
@@ -162,7 +159,7 @@ export function TestimonialsSection() {
                       variant="outline"
                       size="sm"
                       className="w-10 h-10 p-0 rounded-lg border-gray-200 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-200 focus-visible:focus"
-                      onClick={() => handleManualNavigation('prev')}
+                      onClick={() => handleManualNavigation("prev")}
                       aria-label="Testimoni sebelumnya"
                     >
                       <ChevronLeft className="h-4 w-4" />
@@ -171,7 +168,7 @@ export function TestimonialsSection() {
                       variant="outline"
                       size="sm"
                       className="w-10 h-10 p-0 rounded-lg border-gray-200 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-200 focus-visible:focus"
-                      onClick={() => handleManualNavigation('next')}
+                      onClick={() => handleManualNavigation("next")}
                       aria-label="Testimoni berikutnya"
                     >
                       <ChevronRight className="h-4 w-4" />
@@ -208,7 +205,7 @@ export function TestimonialsSection() {
                         allowFullScreen
                         onLoad={handleIframeLoad}
                       />
-                      
+
                       {/* Removed custom play/pause overlay */}
                     </>
                   ) : (
@@ -231,29 +228,31 @@ export function TestimonialsSection() {
 
         {/* Testimonial indicators */}
         <div className="flex justify-center mt-8 space-x-2">
-          {(data?.testimonial?.testimonialData || new Array(3).fill(null)).map((_, index) => (
-            <button
-              key={index}
-              className={`w-3 h-3 rounded-full transition-all duration-200 focus-visible:focus ${
-                index === currentIndex
-                  ? "bg-primary-600 scale-110"
-                  : "bg-gray-300 hover:bg-gray-400"
-              }`}
-              onClick={() => {
-                setCurrentIndex(index);
-                // Reset auto-play timer on manual navigation
-                if (autoPlayRef.current) {
-                  clearInterval(autoPlayRef.current);
-                }
-                if (isAutoPlay && !isVideoPlaying) {
-                  autoPlayRef.current = setInterval(() => {
-                    nextTestimonial();
-                  }, 5000);
-                }
-              }}
-              aria-label={`Pergi ke testimoni ${index + 1}`}
-            />
-          ))}
+          {(data?.testimonial?.testimonialData || new Array(3).fill(null)).map(
+            (_, index) => (
+              <button
+                key={index}
+                className={`w-3 h-3 rounded-full transition-all duration-200 focus-visible:focus ${
+                  index === currentIndex
+                    ? "bg-primary-600 scale-110"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                onClick={() => {
+                  setCurrentIndex(index);
+                  // Reset auto-play timer on manual navigation
+                  if (autoPlayRef.current) {
+                    clearInterval(autoPlayRef.current);
+                  }
+                  if (isAutoPlay && !isVideoPlaying) {
+                    autoPlayRef.current = setInterval(() => {
+                      nextTestimonial();
+                    }, 5000);
+                  }
+                }}
+                aria-label={`Pergi ke testimoni ${index + 1}`}
+              />
+            )
+          )}
         </div>
       </div>
     </section>
